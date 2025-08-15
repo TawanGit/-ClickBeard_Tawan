@@ -3,6 +3,8 @@ Como Configurar o Projeto
 ```bash
 npm install
 ```
+
+
 2️⃣ Configure as variáveis de ambiente
 
 Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
@@ -16,6 +18,13 @@ DB_USER=postgres
 DB_PASSWORD=root
 DB_NAME=barber_db
 ```
+
+Instale o PGSQL localmente, utilizando Docker 
+
+```bash
+docker-compose up -d
+```
+
 
 # Configurações de autenticação
 
@@ -51,9 +60,6 @@ Para ver o mapeamento das rotas, acesse:
 http://localhost:3001/api
 ```
 
-```bash
-npm run seed:admin
-```
 
 5️⃣ Observações finais
 
