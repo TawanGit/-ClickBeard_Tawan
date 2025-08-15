@@ -127,7 +127,7 @@ export default function AppointmentsClient() {
                       setAppointments
                     )
                   }
-                  className="bg-red-400 rounded-lg p-2 mt-3 cursor-pointer hover:bg-red-300 transition-colors"
+                  className="bg-red-500 text-white font-semibold p-2 rounded-lg shadow-md hover:bg-red-700 transition-colors duration-300 cursor-pointer mt-2"
                 >
                   Cancelar Agendamento
                 </button>

@@ -102,7 +102,7 @@ export default function AdminDashboard() {
                   setUpcomingAppointments
                 )
               }
-              className="bg-red-400 p-2 rounded-lg hover:bg-red-300 transition-colors"
+              className="bg-red-500 text-white font-semibold p-2 rounded-lg shadow-md hover:bg-red-700 transition-colors duration-300 cursor-pointer"
             >
               Deletar
             </button>
