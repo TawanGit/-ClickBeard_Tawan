@@ -49,6 +49,12 @@ export class BarberService {
     return await this.barberRepository.findBySpecialties(id);
   }
 
+  async getBarbersWithoutSpecialty(specialtyId: number) {
+    return await this.barberSpecialtiesRepository.findBarbersWithoutSpecialty(
+      specialtyId,
+    );
+  }
+
   async addSpecialtyToBarber(addSpecialtyToBarber: AddSpecialtyToBarberDto) {
     return await this.barberSpecialtiesRepository.create(
       addSpecialtyToBarber.barberId,

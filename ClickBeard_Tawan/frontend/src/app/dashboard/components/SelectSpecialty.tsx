@@ -1,10 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
-interface Specialties {
-  id: number;
-  name: string;
-}
+import { Specialties } from "../../../../types/GeneralTypes";
 
 interface Props {
   speciality: (id: number) => void;

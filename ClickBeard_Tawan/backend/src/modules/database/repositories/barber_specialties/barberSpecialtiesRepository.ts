@@ -42,4 +42,21 @@ export class BarberSpecialtiesRepository {
 
     return result.rows[0];
   }
+
+  async findBarbersWithoutSpecialty(specialtyId: number) {
+    const specialty = await this.db.query(
+      'SELECT * FROM specialties WHERE id = $1',
+      [specialtyId],
+    );
+    if (specialty.rows.length < 1) {
+      throw new NotFoundException('Especialidade não encontrada');
+    }
+
+    const barbers = await this.db.query(
+      'SELECT b.* FROM barbers b LEFT JOIN barber_specialties bs ON b.id = bs.barber_id AND bs.specialty_id = $1 WHERE bs.specialty_id IS NULL',
+      [specialtyId],
+    );
+
+    return barbers.rows;
+  }
 }

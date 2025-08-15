@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaUserEdit } from "react-icons/fa";
 import { useClientStore } from "@/store/clientStore";
 import CreateSpecialty from "./modals/CreateSpecialty";
 import CreateBarber from "./modals/CreateBarber";
@@ -18,6 +18,8 @@ import {
   TodayOrFuture,
 } from "../../../../types/GeneralTypes";
 import { formatAppointmentDate } from "../../../../utils/dateHelpers";
+import TripleButton from "./TripleButton";
+import AddSpecialtyToBarber from "./modals/AddSpecialtyToBarber";
 
 const statusOptions: StatusKey[] = ["scheduled", "completed", "canceled"];
 
@@ -155,21 +157,8 @@ export default function AdminDashboard() {
         <h1 className="text-2xl font-bold text-green-700">Dashboard Admin</h1>
       </div>
 
-      <div className="flex gap-2">
-        <button
-          className="flex items-center gap-4 rounded-full bg-white p-3 shadow-md hover:shadow-lg transition-shadow"
-          onClick={() => setActiveModal("barber")}
-        >
-          Criar Barbeiro
-          <FaPlus />
-        </button>
-        <button
-          className="flex items-center gap-4 rounded-full bg-white p-3 shadow-md hover:shadow-lg transition-shadow"
-          onClick={() => setActiveModal("specialty")}
-        >
-          Criar Especialidade
-          <FaPlus />
-        </button>
+      <div className="flex rounded-full overflow-hidden shadow-sm w-max text-sm ">
+        <TripleButton setActiveModal={(value) => setActiveModal(value)} />
       </div>
 
       {activeModal === "barber" && (
@@ -177,6 +166,10 @@ export default function AdminDashboard() {
       )}
       {activeModal === "specialty" && (
         <CreateSpecialty onClose={() => setActiveModal("")} />
+      )}
+
+      {activeModal === "addSpecialtyToBarber" && (
+        <AddSpecialtyToBarber onClose={() => setActiveModal("")} />
       )}
 
       <div className="flex flex-wrap gap-4">

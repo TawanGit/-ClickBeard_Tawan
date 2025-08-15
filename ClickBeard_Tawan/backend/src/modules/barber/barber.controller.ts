@@ -49,6 +49,15 @@ export class BarberController {
     return this.barberService.findAll();
   }
 
+  @ApiOperation({ summary: 'Get barbers without specialty' })
+  @ApiParam({ name: 'specialtyId', type: Number })
+  @Get('withoutSpecialty/:id')
+  async getBarbersWithoutSpecialty(
+    @Param('id', ParseIntPipe) specialtyId: number,
+  ) {
+    return this.barberService.getBarbersWithoutSpecialty(specialtyId);
+  }
+
   @Get('/specialties/:id')
   @ApiOperation({ summary: 'Get barbers by specialty ID' })
   @ApiParam({ name: 'id', description: 'Specialty ID', type: Number })

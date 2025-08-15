@@ -20,4 +20,13 @@ export type Appointment = {
 
 export type TodayOrFuture = "today" | "future";
 
-export type activeModalAdmin = "" | "barber" | "specialty";
+export type activeModalAdmin =
+  | ""
+  | "barber"
+  | "specialty"
+  | "addSpecialtyToBarber";
+
+export type Specialties = {
+  id: number;
+  name: string;
+};
