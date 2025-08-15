@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import CreateAppointment from "./CreateAppointment";
 import { useRouter } from "next/navigation";
+import { handleChangeStatus } from "../../../../utils/appointments";
+import {
+  formatAppointmentDate,
+  isMoreThanTwoHoursAway,
+} from "../../../../utils/dateHelpers";
 
 export const statusPTBR = {
   scheduled: "Agendado",
@@ -23,6 +28,7 @@ export default function AppointmentsClient() {
   const [clientId, setClientId] = useState<number | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [newAppointment, setNewAppointment] = useState<boolean>(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -57,27 +63,6 @@ export default function AppointmentsClient() {
 
     fetchAppointments();
   }, [clientId, newAppointment]);
-
-  async function deleteAppointment(appointmentId: number) {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/appointments/${appointmentId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!res.ok) throw new Error("Erro ao deletar agendamento");
-
-      setAppointments(appointments.filter((a) => a.id !== appointmentId));
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
   if (!clientId) return <p>Loading...</p>;
 
@@ -117,15 +102,7 @@ export default function AppointmentsClient() {
               Barbeiro: {app.barber_name}
             </h2>
             <p className="text-gray-700 mt-2">
-              {new Date(app.appointment_date).toLocaleString("pt-BR", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-                timeZone: "America/Sao_Paulo",
-              })}
+              {formatAppointmentDate(app.appointment_date)}
             </p>
             <p
               className={`mt-3 font-semibold ${
@@ -138,12 +115,23 @@ export default function AppointmentsClient() {
             >
               Status: {statusPTBR[app.status]}
             </p>
-            <button
-              onClick={() => deleteAppointment(app.id)}
-              className="bg-red-400 rounded-lg p-2 mt-3 cursor-pointer hover:bg-red-300 transition-colors"
-            >
-              Deletar
-            </button>
+
+            {app.status !== "canceled" &&
+              isMoreThanTwoHoursAway(app.appointment_date) && (
+                <button
+                  onClick={() =>
+                    handleChangeStatus(
+                      "canceled",
+                      app.id,
+                      token!,
+                      setAppointments
+                    )
+                  }
+                  className="bg-red-400 rounded-lg p-2 mt-3 cursor-pointer hover:bg-red-300 transition-colors"
+                >
+                  Cancelar Agendamento
+                </button>
+              )}
           </div>
         ))}
       </div>
