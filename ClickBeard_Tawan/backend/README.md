@@ -1,4 +1,5 @@
-Como Configurar o Projeto
+# Como Configurar o Projeto
+
 1️⃣ Instale as dependências
 
 ```bash
