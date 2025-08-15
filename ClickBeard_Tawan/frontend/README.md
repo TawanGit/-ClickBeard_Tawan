@@ -14,7 +14,7 @@ Renomeie o arquivo de exemplo:
 Defina a URL do backend dentro do .env:
 
 ```bash
-NEXT_PUBLIC_BASE_URL=http://localhost:3001/
+NEXT_PUBLIC_BASE_URL=http://localhost:3001
 ```
 
 ℹ️ A porta padrão do backend do projeto é 3001.
