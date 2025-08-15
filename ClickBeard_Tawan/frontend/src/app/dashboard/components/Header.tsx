@@ -18,7 +18,9 @@ export default function Header() {
   return (
     <div className="p-4 text-green shadow-md">
       <div className="flex justify-between items-center">
-        <p className="text-green-700 text-2xl">ClickBeard</p>
+        <p className="text-green-700 text-2xl">
+          Click<span className="text-black">Beard</span>
+        </p>
         <button
           onClick={handleLogout}
           className="bg-red-400 rounded-full p-1 px-4 text-white hover:brightness-95  cursor-pointer"
