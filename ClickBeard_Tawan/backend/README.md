@@ -1,9 +1,9 @@
 Como Configurar o Projeto
 1️⃣ Instale as dependências
+
 ```bash
 npm install
 ```
-
 
 2️⃣ Configure as variáveis de ambiente
 
@@ -19,12 +19,11 @@ DB_PASSWORD=root
 DB_NAME=barber_db
 ```
 
-Instale o PGSQL localmente, utilizando Docker 
+Instale o PGSQL localmente, utilizando Docker
 
 ```bash
 docker-compose up -d
 ```
-
 
 # Configurações de autenticação
 
@@ -60,7 +59,6 @@ Para ver o mapeamento das rotas, acesse:
 http://localhost:3001/api
 ```
 
-
 5️⃣ Observações finais
 
 Certifique-se de que o PostgreSQL está rodando no host definido no .env.
@@ -74,4 +72,5 @@ npm run start:dev
 ```
 
 Diagrama Entidade-Relacionamento (ERD)
+
 ![alt text](DER.png)
