@@ -1,7 +1,8 @@
 Como Configurar o Projeto
 1️⃣ Instale as dependências
+```bash
 npm install
-
+```
 2️⃣ Configure as variáveis de ambiente
 
 Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
