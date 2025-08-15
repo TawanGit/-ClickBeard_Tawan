@@ -16,7 +16,10 @@ export class ClientRepository {
   }
 
   async findAll() {
-    const result = await this.db.query('SELECT * FROM clients');
+    const result = await this.db.query(`
+    SELECT id, name, email, role, created_at
+    FROM clients
+  `);
     return result.rows;
   }
   async createWithHash(registerClientDto: RegisterClientDto) {
