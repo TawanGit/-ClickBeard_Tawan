@@ -5,26 +5,19 @@ import { useClientStore } from "@/store/clientStore";
 import CreateSpecialty from "./modals/CreateSpecialty";
 import CreateBarber from "./modals/CreateBarber";
 import { statusPTBR } from "./AppointmentsClient";
-
-type StatusKey = "scheduled" | "completed" | "canceled";
-
-interface Appointment {
-  id: number;
-  barber_name: string;
-  client_name: string;
-  status: StatusKey;
-  appointment_date: string;
-}
-
-interface Barber {
-  id: number;
-  name: string;
-}
-
-interface Client {
-  id: number;
-  name: string;
-}
+import {
+  handleChangeStatus,
+  handleDeleteAppointment,
+} from "../../../../utils/appointments";
+import {
+  activeModalAdmin,
+  Appointment,
+  Barber,
+  Client,
+  StatusKey,
+  TodayOrFuture,
+} from "../../../../types/GeneralTypes";
+import { formatAppointmentDate } from "../../../../utils/dateHelpers";
 
 const statusOptions: StatusKey[] = ["scheduled", "completed", "canceled"];
 
@@ -37,10 +30,8 @@ export default function AdminDashboard() {
   >([]);
   const [barbersList, setBarbersList] = useState<Barber[]>([]);
   const [clientsList, setClientsList] = useState<Client[]>([]);
-  const [activeModal, setActiveModal] = useState<"" | "barber" | "specialty">(
-    ""
-  );
-  const [activeTab, setActiveTab] = useState<"today" | "future">("today");
+  const [activeModal, setActiveModal] = useState<activeModalAdmin>("");
+  const [activeTab, setActiveTab] = useState<TodayOrFuture>("today");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,47 +80,6 @@ export default function AdminDashboard() {
     if (token) fetchData();
   }, [token]);
 
-  const handleDeleteAppointment = async (id: number) => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/appointments/${id}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      if (response.ok) {
-        setTodayAppointments((prev) => prev.filter((a) => a.id !== id));
-        setUpcomingAppointments((prev) => prev.filter((a) => a.id !== id));
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleChangeStatus = async (status: StatusKey, id: number) => {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/appointments`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status, id }),
-      });
-
-      setTodayAppointments((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, status } : a))
-      );
-      setUpcomingAppointments((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, status } : a))
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const renderAppointments = (list: Appointment[]) =>
     list.length === 0 ? (
       <p className="text-center text-gray-500">Nenhum agendamento</p>
@@ -144,7 +94,14 @@ export default function AdminDashboard() {
               Barbeiro: {app.barber_name}
             </h3>
             <button
-              onClick={() => handleDeleteAppointment(app.id)}
+              onClick={() =>
+                handleDeleteAppointment(
+                  app.id,
+                  token!,
+                  setTodayAppointments,
+                  setUpcomingAppointments
+                )
+              }
               className="bg-red-400 p-2 rounded-lg hover:bg-red-300 transition-colors"
             >
               Deletar
@@ -152,15 +109,7 @@ export default function AdminDashboard() {
           </div>
           <p className="mt-2 text-gray-700">Cliente: {app.client_name}</p>
           <p className="mt-1 text-gray-700">
-            {new Date(app.appointment_date).toLocaleString("pt-BR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-              timeZone: "America/Sao_Paulo",
-            })}
+            {formatAppointmentDate(app.appointment_date)}
           </p>
           <div className="flex items-center gap-2 mt-4">
             <p
@@ -176,7 +125,13 @@ export default function AdminDashboard() {
             </p>
             <select
               onChange={(e) =>
-                handleChangeStatus(e.target.value as StatusKey, app.id)
+                handleChangeStatus(
+                  e.target.value as StatusKey,
+                  app.id,
+                  token!,
+                  setTodayAppointments,
+                  setUpcomingAppointments
+                )
               }
               className="px-4 py-1 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
               value={app.status}
