@@ -7,6 +7,7 @@ import { RegisterBarberDto } from './dtos/register-barber-dto';
 import { LoginBarberDto } from './dtos/login-barber-dto';
 import { BarberRepository } from '../database/repositories/barbers/barberRepository';
 import { BarberSpecialtiesRepository } from '../database/repositories/barber_specialties/barberSpecialtiesRepository';
+import { AddSpecialtyToBarberDto } from './dtos/add-specialty-to-barber-dto';
 
 @Injectable()
 export class BarberService {
@@ -41,10 +42,17 @@ export class BarberService {
     return result;
   }
   async findAll() {
-    return this.barberRepository.findAll();
+    return await this.barberRepository.findAll();
   }
 
   async findBySpecialties(id: number) {
-    return this.barberRepository.findBySpecialties(id);
+    return await this.barberRepository.findBySpecialties(id);
+  }
+
+  async addSpecialtyToBarber(addSpecialtyToBarber: AddSpecialtyToBarberDto) {
+    return await this.barberSpecialtiesRepository.create(
+      addSpecialtyToBarber.barberId,
+      addSpecialtyToBarber.specialtyId,
+    );
   }
 }

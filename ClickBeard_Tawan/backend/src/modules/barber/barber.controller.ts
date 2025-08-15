@@ -18,6 +18,7 @@ import {
   ApiBody,
   ApiResponse,
 } from '@nestjs/swagger';
+import { AddSpecialtyToBarberDto } from './dtos/add-specialty-to-barber-dto';
 
 @ApiTags('barbers')
 @Controller('barbers')
@@ -57,5 +58,14 @@ export class BarberController {
   })
   findBySpecialties(@Param('id', ParseIntPipe) id: number) {
     return this.barberService.findBySpecialties(id);
+  }
+
+  @ApiOperation({ summary: 'Add specialty to barber' })
+  @ApiBody({ type: AddSpecialtyToBarberDto })
+  @Post('createSpecialtyToBarber')
+  async addSpecialtyToBarber(
+    @Body() addSpecialtyToBarber: AddSpecialtyToBarberDto,
+  ) {
+    return this.barberService.addSpecialtyToBarber(addSpecialtyToBarber);
   }
 }
