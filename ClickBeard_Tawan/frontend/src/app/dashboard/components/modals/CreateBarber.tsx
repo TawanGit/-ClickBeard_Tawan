@@ -11,7 +11,7 @@ export default function CreateBarber({ onClose }: Props) {
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
   const [age, setAge] = useState<number | "">("");
-  const [accountingData, setAccountingData] = useState("");
+  const [accountingDate, setAccountingDate] = useState("");
   const [speciality, setSpeciality] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -29,7 +29,7 @@ export default function CreateBarber({ onClose }: Props) {
             name,
             cpf,
             age,
-            accounting_data: accountingData.split("/").reverse().join("/"),
+            accounting_date: accountingDate.split("/").reverse().join("/"),
             specialtyId: speciality,
           }),
         }
@@ -48,7 +48,7 @@ export default function CreateBarber({ onClose }: Props) {
       setName("");
       setCpf("");
       setAge("");
-      setAccountingData("");
+      setAccountingDate("");
       setSpeciality(null);
     } catch (error: any) {
       console.error(error);
@@ -97,7 +97,7 @@ export default function CreateBarber({ onClose }: Props) {
           />
           <Day
             text="Data de Contratação"
-            day={(day) => setAccountingData(day)}
+            day={(day) => setAccountingDate(day)}
           />
 
           <SelectSpecialties speciality={(id) => setSpeciality(id)} />

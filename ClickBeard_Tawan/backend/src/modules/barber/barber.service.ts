@@ -17,9 +17,9 @@ export class BarberService {
 
   async signIn(loginBarberDto: LoginBarberDto) {
     // decidi usar essa abordagem pois me inspirei na UVV EAD, aonde temos que colocar a matricula
-    const { cpf, accounting_data } = loginBarberDto;
+    const { cpf, accounting_date } = loginBarberDto;
 
-    const barber = await this.barberRepository.verifyUser(cpf, accounting_data);
+    const barber = await this.barberRepository.verifyUser(cpf, accounting_date);
 
     if (!barber) {
       throw new BadRequestException('Usuario não encontrado');

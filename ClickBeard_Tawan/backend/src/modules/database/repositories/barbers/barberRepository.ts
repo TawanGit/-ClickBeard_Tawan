@@ -12,7 +12,7 @@ export class BarberRepository {
   ) {}
 
   async createWithSpecialty(registerBarberDto: RegisterBarberDto) {
-    const { cpf, name, age, accounting_data, specialtyId } = registerBarberDto;
+    const { cpf, name, age, accounting_date, specialtyId } = registerBarberDto;
     const specialtyExist =
       await this.specialtiesRepository.findById(specialtyId);
 
@@ -20,8 +20,8 @@ export class BarberRepository {
       throw new NotFoundException('Especialidade não encontrada');
     }
     const newBarber = await this.db.query(
-      'INSERT INTO barbers (cpf, name, age, accounting_data) VALUES ($1, $2, $3, $4) RETURNING *',
-      [cpf, name, age, accounting_data],
+      'INSERT INTO barbers (cpf, name, age, accounting_date) VALUES ($1, $2, $3, $4) RETURNING *',
+      [cpf, name, age, accounting_date],
     );
 
     const newRelation = await this.barberSpecialtiesRepository.create(
@@ -46,10 +46,10 @@ export class BarberRepository {
     return barber.rows;
   }
 
-  async verifyUser(cpf: string, accounting_data: Date) {
+  async verifyUser(cpf: string, accounting_date: Date) {
     const barber = await this.db.query(
-      'SELECT * FROM barbers WHERE cpf = $1 AND accounting_data = $2',
-      [cpf, accounting_data],
+      'SELECT * FROM barbers WHERE cpf = $1 AND accounting_date = $2',
+      [cpf, accounting_date],
     );
 
     return barber.rows[0];

@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS barbers (
   name VARCHAR(255) NOT NULL,
   cpf VARCHAR(11) NOT NULL UNIQUE,
   age VARCHAR(255)  NOT NULL,
-  accounting_data TIMESTAMP DEFAULT NOW()
+  accounting_date TIMESTAMP DEFAULT NOW(),
+  created_at TIMESTAMP DEFAULT NOW()
 );

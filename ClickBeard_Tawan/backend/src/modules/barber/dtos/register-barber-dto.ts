@@ -49,5 +49,5 @@ export class RegisterBarberDto {
   @IsNotEmpty({ message: 'A data de contratação não pode estar vazia' })
   @IsDate({ message: 'A data de contratação deve ser uma data válida' })
   @Type(() => Date)
-  accounting_data: Date;
+  accounting_date: Date;
 }
