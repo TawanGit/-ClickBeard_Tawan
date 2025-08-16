@@ -9,6 +9,7 @@ import {
   isMoreThanFiveDaysOld,
   isMoreThanTwoHoursAway,
 } from "../../../../utils/dateHelpers";
+import { AiOutlineSchedule } from "react-icons/ai";
 
 export const statusPTBR = {
   scheduled: "Agendado",
@@ -95,10 +96,12 @@ export default function AppointmentsClient() {
         />
       )}
 
-      <h2 className="text-xl font-bold text-green-600 mb-3">
+      <h2 className="flex items-center gap-2 text-xl font-bold text-green-600 mb-3">
+        <AiOutlineSchedule />
         Agendamentos Ativos
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+
+      <div className="max-h-80 overflow-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
         {activeAppointments.length === 0 && (
           <p className="text-center col-span-full text-gray-500">
             Nenhum agendamento ativo
@@ -152,7 +155,7 @@ export default function AppointmentsClient() {
         <FaArchive />
         Agendamentos Arquivados
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="max-h-80 overflow-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {archivedAppointments.length === 0 && (
           <p className="text-center col-span-full mt-12 text-gray-500">
             Nenhum agendamento arquivado
