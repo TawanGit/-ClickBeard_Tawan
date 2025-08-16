@@ -31,6 +31,5 @@ Outros: REST API, Autenticação JWT
 
 ### Mobile  
 <div align="center">
-  <img width="45%" alt="image" src="https://github.com/user-attachments/assets/e7a50e36-8064-40fc-a75a-43559dbac145" />
   <img width="45%" alt="image" src="https://github.com/user-attachments/assets/a242ac08-f59c-475f-9f3d-fe605c204669" />
 </div>
