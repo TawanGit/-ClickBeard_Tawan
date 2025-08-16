@@ -114,7 +114,7 @@ export default function CreateAppointment({
             <button
               onClick={handleAppointment}
               disabled={loading}
-              className="bg-green-500 w-full p-2 rounded-lg mt-2 hover:bg-green-400 cursor-pointer disabled:opacity-50"
+              className="bg-green-700 text-white font-semibold p-2 rounded-lg shadow-md hover:bg-green-600 transition-colors duration-300 cursor-pointer mt-2"
             >
               {loading ? "Agendando..." : "Agendar"}
             </button>
