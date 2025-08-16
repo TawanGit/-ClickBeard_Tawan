@@ -26,6 +26,9 @@ export class AppointmentRepository {
     const appointmentBusy = await this.appointmentIsBusy(appointment_date);
 
     if (appointmentBusy.rows.length > 0) {
+      if (appointmentBusy.rows[0].status === 'canceled') {
+        return this.changeStatus('scheduled', appointmentBusy.rows[0].id);
+      }
       throw new BadRequestException('Já existe um agendamento nesse horario');
     }
 
@@ -158,7 +161,7 @@ ORDER BY a.appointment_date ASC;
 
   async appointmentIsBusy(appointment_date: string) {
     const result = await this.db.query(
-      'SELECT * FROM appointments WHERE appointment_date = $1 ',
+      'SELECT * FROM appointments WHERE appointment_date = $1',
       [appointment_date],
     );
 
