@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaInfoCircle, FaArchive } from "react-icons/fa";
 import CreateAppointment from "./CreateAppointment";
 import { useRouter } from "next/navigation";
 import { handleChangeStatus } from "../../../../utils/appointments";
 import {
   formatAppointmentDate,
+  isMoreThanFiveDaysOld,
   isMoreThanTwoHoursAway,
 } from "../../../../utils/dateHelpers";
 
@@ -21,6 +22,7 @@ interface appointment {
   status: "scheduled" | "completed" | "canceled";
   appointment_date: string;
 }
+
 export default function AppointmentsClient() {
   const router = useRouter();
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -66,10 +68,17 @@ export default function AppointmentsClient() {
 
   if (!clientId) return <p>Loading...</p>;
 
+  const activeAppointments = appointments.filter(
+    (a) => !isMoreThanFiveDaysOld(a.appointment_date) && a.status !== "canceled"
+  );
+  const archivedAppointments = appointments.filter(
+    (a) => isMoreThanFiveDaysOld(a.appointment_date) || a.status == "canceled"
+  );
+
   return (
-    <div className="p-6 bg-green-50 min-h-screen">
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <h1 className="font-bold text-green-700 text-3xl">Meus Agendamentos</h1>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="flex items-center justify-between gap-4 mb-6 border-b border-gray-200 rounded pb-2">
+        <h1 className="font-bold text-gray-700 text-3xl">Meus Agendamentos</h1>
         <button
           onClick={() => setModalOpen(true)}
           className="rounded-full bg-white p-3 text-lg shadow-md hover:shadow-lg transition-shadow"
@@ -86,14 +95,17 @@ export default function AppointmentsClient() {
         />
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {appointments.length === 0 && (
+      <h2 className="text-xl font-bold text-green-600 mb-3">
+        Agendamentos Ativos
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+        {activeAppointments.length === 0 && (
           <p className="text-center col-span-full text-gray-500">
-            Nenhum agendamento encontrado
+            Nenhum agendamento ativo
           </p>
         )}
 
-        {appointments.map((app: appointment) => (
+        {activeAppointments.map((app: appointment) => (
           <div
             key={app.id}
             className="bg-white shadow-md rounded-xl p-5 flex flex-col justify-between hover:shadow-xl transition-shadow"
@@ -132,6 +144,43 @@ export default function AppointmentsClient() {
                   Cancelar Agendamento
                 </button>
               )}
+          </div>
+        ))}
+      </div>
+
+      <h2 className="text-xl font-bold text-gray-600 mb-3 flex items-center gap-2">
+        <FaArchive />
+        Agendamentos Arquivados
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {archivedAppointments.length === 0 && (
+          <p className="text-center col-span-full mt-12 text-gray-500">
+            Nenhum agendamento arquivado
+          </p>
+        )}
+
+        {archivedAppointments.map((app: appointment) => (
+          <div
+            key={app.id}
+            className="bg-gray-100 border border-gray-300 shadow-sm rounded-xl p-5 flex flex-col justify-between"
+          >
+            <h2 className="text-xl font-semibold text-gray-700">
+              Barbeiro: {app.barber_name}
+            </h2>
+            <p className="text-gray-600 mt-2">
+              {formatAppointmentDate(app.appointment_date)}
+            </p>
+            <p
+              className={`mt-3 font-semibold ${
+                app.status === "scheduled"
+                  ? "text-green-600"
+                  : app.status === "completed"
+                  ? "text-blue-600"
+                  : "text-red-600"
+              }`}
+            >
+              Status: {statusPTBR[app.status]}
+            </p>
           </div>
         ))}
       </div>

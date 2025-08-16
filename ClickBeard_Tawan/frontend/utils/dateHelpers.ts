@@ -5,6 +5,15 @@ export const isMoreThanTwoHoursAway = (dateString: string) => {
   );
 };
 
+export const isMoreThanFiveDaysOld = (dateString: string): boolean => {
+  const givenDate = new Date(dateString).getTime();
+  const now = new Date().getTime();
+
+  const differenceInDays = (now - givenDate) / (1000 * 60 * 60 * 24);
+
+  return differenceInDays > 5;
+};
+
 export const formatAppointmentDate = (dateString: string) => {
   return new Date(dateString).toLocaleString("pt-BR", {
     day: "2-digit",
