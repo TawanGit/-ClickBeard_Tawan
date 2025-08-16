@@ -208,7 +208,7 @@ export default function AdminDashboard() {
         </button>
         <button
           onClick={() => setActiveTab("future")}
-          className={`px-4 py-2 rounded-lg font-semibold ${
+          className={`px-4 py-2 rounded-lg font-semibold${
             activeTab === "future"
               ? "bg-green-700 text-white"
               : "bg-white text-gray-700"
@@ -218,7 +218,7 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      <div className="max-h-1/2 overflow-auto flex flex-col gap-4 mt-4">
+      <div className="max-h-96 overflow-auto flex flex-col gap-4 mt-4">
         {activeTab === "today"
           ? renderAppointments(todayAppointments)
           : renderAppointments(upcomingAppointments)}
