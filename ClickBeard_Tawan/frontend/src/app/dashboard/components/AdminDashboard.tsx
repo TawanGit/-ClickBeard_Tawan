@@ -218,7 +218,7 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      <div className="flex flex-col gap-4 mt-4">
+      <div className="max-h-1/2 overflow-auto flex flex-col gap-4 mt-4">
         {activeTab === "today"
           ? renderAppointments(todayAppointments)
           : renderAppointments(upcomingAppointments)}
