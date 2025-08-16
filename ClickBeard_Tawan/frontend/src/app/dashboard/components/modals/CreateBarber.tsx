@@ -2,6 +2,10 @@
 import { useState } from "react";
 import SelectSpecialties from "../SelectSpecialty";
 import Day from "../Day";
+import { MessageSuccessOrError } from "../../../../../types/GeneralTypes";
+import { handleCreateNewBarber } from "../../../../../utils/barbers";
+import { useClientStore } from "../../../../store/clientStore";
+import Message from "../Message";
 
 interface Props {
   onClose: () => void;
@@ -14,45 +18,37 @@ export default function CreateBarber({ onClose }: Props) {
   const [accountingDate, setAccountingDate] = useState("");
   const [speciality, setSpeciality] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<MessageSuccessOrError | null>(null);
+  const { token } = useClientStore();
   async function handleCreateBarber() {
     try {
       setLoading(true);
       setMessage(null);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/barbers/register`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            cpf,
-            age,
-            accounting_date: accountingDate.split("/").reverse().join("/"),
-            specialtyId: speciality,
-          }),
-        }
-      );
+      await handleCreateNewBarber({
+        name,
+        cpf,
+        age: Number(age),
+        accountingDate,
+        speciality,
+        token,
+      });
 
-      const data = await res.json();
+      setMessage({
+        text: "Barbeiro criado com sucesso!",
+        type: "success",
+      });
 
-      if (!res.ok) {
-        const firstError = Array.isArray(data.message)
-          ? data.message[0]
-          : data.message;
-        throw new Error(firstError || "Erro ao criar barbeiro");
-      }
-
-      setMessage("Barbeiro criado com sucesso!");
       setName("");
       setCpf("");
       setAge("");
       setAccountingDate("");
       setSpeciality(null);
     } catch (error: any) {
-      console.error(error);
-      setMessage(`Erro: ${error.message || "Algo deu errado"}`);
+      setMessage({
+        text: error.message || "Algo deu errado",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -110,15 +106,7 @@ export default function CreateBarber({ onClose }: Props) {
             {loading ? "Criando..." : "Criar"}
           </button>
 
-          {message && (
-            <p
-              className={`${
-                message.includes("Erro") ? "text-red-500" : "text-green-600"
-              } text-center font-semibold`}
-            >
-              {message}
-            </p>
-          )}
+          <Message message={message} />
         </div>
       </div>
     </div>

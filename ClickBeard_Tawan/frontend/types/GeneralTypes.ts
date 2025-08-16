@@ -18,6 +18,19 @@ export type Appointment = {
   appointment_date: string;
 };
 
+export type CreateBarber = {
+  name: string;
+  cpf: string;
+  age: number;
+  accountingDate: string;
+  speciality: number | null;
+  token: string | null;
+};
+
+export type MessageSuccessOrError = {
+  text: string;
+  type: "error" | "success";
+};
 export type TodayOrFuture = "today" | "future";
 
 export type activeModalAdmin =

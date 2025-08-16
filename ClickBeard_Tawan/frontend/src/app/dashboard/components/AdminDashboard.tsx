@@ -198,21 +198,24 @@ export default function AdminDashboard() {
       <div className="flex gap-4 mt-6">
         <button
           onClick={() => setActiveTab("today")}
-          className={`px-4 py-2 rounded-lg font-semibold ${
-            activeTab === "today"
-              ? "bg-green-700 text-white"
-              : "bg-white text-gray-700"
-          }`}
+          className={`px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 shadow-sm
+      ${
+        activeTab === "today"
+          ? "bg-green-600 text-white shadow-md"
+          : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+      }`}
         >
           Hoje
         </button>
+
         <button
           onClick={() => setActiveTab("future")}
-          className={`px-4 py-2 rounded-lg font-semibold${
-            activeTab === "future"
-              ? "bg-green-700 text-white"
-              : "bg-white text-gray-700"
-          }`}
+          className={`px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 shadow-sm
+      ${
+        activeTab === "future"
+          ? "bg-green-600 text-white shadow-md"
+          : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+      }`}
         >
           Futuro
         </button>

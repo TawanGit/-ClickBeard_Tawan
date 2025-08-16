@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import SelectSpecialties from "../SelectSpecialty";
-import { Barber } from "../../../../../types/GeneralTypes";
+import {
+  Barber,
+  MessageSuccessOrError,
+} from "../../../../../types/GeneralTypes";
 import {
   getBarbersWithoutSpecialty,
   handleAddSpecialtyToBarber,
 } from "../../../../../utils/barbers";
 import { useClientStore } from "../../../../store/clientStore";
+import Message from "../Message";
 
 interface Props {
   onClose: () => void;
@@ -16,10 +20,7 @@ function AddSpecialtyToBarber({ onClose }: Props) {
   const [barbers, setBarbers] = useState<Barber[]>();
   const [selectedBarber, setSelectedBarber] = useState<number>();
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
+  const [message, setMessage] = useState<MessageSuccessOrError | null>(null);
 
   const { token } = useClientStore();
 
@@ -92,17 +93,7 @@ function AddSpecialtyToBarber({ onClose }: Props) {
           </select>
         )}
 
-        {message && (
-          <div
-            className={`mb-4 p-2 rounded text-center ${
-              message.type === "success"
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
+        <Message message={message} />
 
         <button
           className={`mt-4 w-full py-2 px-4 rounded-lg font-semibold shadow-md transition-all duration-200 ${
