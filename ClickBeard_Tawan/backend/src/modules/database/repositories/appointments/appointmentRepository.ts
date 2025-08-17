@@ -57,7 +57,7 @@ export class AppointmentRepository {
 
     const notificationsDto = {
       client_id,
-      message: `📅 Novo Agendamento!!\n➡ Data: ${appointment_date}\n💈 Barbeiro: ${barberExist.rows[0].name}\n🙋 Cliente: ${clientExist.rows[0].name}`,
+      message: `📅 Novo Agendamento!!\n➡ Data: ${appointment_date}\n para o barbeiro: ${barberExist.rows[0].name}\n `,
     } as NotificationsDto;
     await this.notificationsRepository.create(notificationsDto);
     return newAppointment.rows[0];

@@ -1,5 +1,9 @@
 import React from "react";
 import { NotificationsApi } from "../../../../../types/GeneralTypes";
+import {
+  formatAppointmentDate,
+  formatNotificationMessage,
+} from "../../../../../utils/dateHelpers";
 
 interface SidebarProps {
   onClose: () => void;
@@ -33,16 +37,16 @@ export const NotificationSidebar: React.FC<SidebarProps> = ({
                 <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-bold">
                   N
                 </div>
-                <div className="flex-1">
-                  <p className="font-medium text-gray-800">
-                    {notification.message}
+                <div className="flex-">
+                  <p className="text-md text-gray-800">
+                    {formatNotificationMessage(notification.message)}
                   </p>
                   <span className="text-gray-500 text-sm">
                     {notification.name}
                   </span>
                 </div>
                 <div className="text-gray-400 text-xs whitespace-nowrap">
-                  2h atrás
+                  {formatAppointmentDate(notification.created_at)}
                 </div>
               </div>
             ))

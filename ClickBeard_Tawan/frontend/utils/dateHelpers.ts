@@ -14,7 +14,7 @@ export const isMoreThanFiveDaysOld = (dateString: string): boolean => {
   return differenceInDays > 5;
 };
 
-export const formatAppointmentDate = (dateString: string) => {
+export const formatAppointmentDate = (dateString: string | Date) => {
   return new Date(dateString).toLocaleString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
@@ -25,3 +25,25 @@ export const formatAppointmentDate = (dateString: string) => {
     timeZone: "America/Sao_Paulo",
   });
 };
+
+export function formatNotificationMessage(message: string) {
+  const regex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/;
+  const match = message.match(regex);
+
+  if (match) {
+    const isoDate = match[0];
+    const dateObj = new Date(isoDate);
+
+    const formatted = dateObj.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return message.replace(isoDate, formatted);
+  }
+
+  return message;
+}
