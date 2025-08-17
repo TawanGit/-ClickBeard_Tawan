@@ -10,9 +10,20 @@ function Notifications() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<NotificationsApi[]>([]);
   const { token } = useClientStore();
+
+  useEffect(() => {
+    const handleFocus = () => {
+      getNotificationsNotRead(token!, setNotifications);
+    };
+    // atualizar com zustand não está funcionando, verificar o porquê depois
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, [token]);
+
   useEffect(() => {
     getNotificationsNotRead(token!, setNotifications);
-  });
+  }, [token]);
+
   return (
     <div>
       <button

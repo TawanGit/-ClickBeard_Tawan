@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaPlus, FaInfoCircle, FaArchive } from "react-icons/fa";
+import { FaPlus, FaArchive } from "react-icons/fa";
 import CreateAppointment from "./CreateAppointment";
 import { useRouter } from "next/navigation";
 import { handleChangeStatus } from "../../../../utils/appointments";
