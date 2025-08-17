@@ -27,12 +27,19 @@ export class AppointmentRepository {
     const barberExist = await this.barberRepository.findById(barber_id);
 
     const appointmentBusy = await this.appointmentIsBusy(appointment_date);
-
     if (appointmentBusy.rows.length > 0) {
-      if (appointmentBusy.rows[0].status === 'canceled') {
-        return this.changeStatus('scheduled', appointmentBusy.rows[0].id);
+      const appointment = appointmentBusy.rows[0];
+
+      if (appointment.status === 'canceled' && appointment.id === client_id) {
+        return this.changeStatus('scheduled', appointment.id);
+      } else if (
+        appointment.status === 'canceled' &&
+        appointment.id !== client_id
+      ) {
+        await this.deleteById(appointment.id);
+      } else {
+        throw new BadRequestException('Já existe um agendamento nesse horário');
       }
-      throw new BadRequestException('Já existe um agendamento nesse horario');
     }
 
     if (clientExist.rows.length === 0) {
