@@ -27,6 +27,15 @@ export type CreateBarber = {
   token: string | null;
 };
 
+export type NotificationsApi = {
+  id: string;
+  client_id: number;
+  message: string;
+  is_read: boolean;
+  created_at: Date;
+  name: string;
+  email: string;
+};
 export type MessageSuccessOrError = {
   text: string;
   type: "error" | "success";

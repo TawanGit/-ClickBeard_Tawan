@@ -7,6 +7,7 @@ import { ClientRepository } from '../database/repositories/clients/clientReposit
 import { BarberRepository } from '../database/repositories/barbers/barberRepository';
 import { SpecialtieRepository } from '../database/repositories/specialties/specialtieRepository';
 import { BarberSpecialtiesRepository } from '../database/repositories/barber_specialties/barberSpecialtiesRepository';
+import { NotificationsRepository } from '../database/repositories/notifications/notificationsRepository';
 
 @Module({
   controllers: [AppointmentsController],
@@ -15,6 +16,7 @@ import { BarberSpecialtiesRepository } from '../database/repositories/barber_spe
     AppointmentRepository,
     DatabaseService,
     ClientRepository,
+    NotificationsRepository,
     BarberRepository,
     SpecialtieRepository,
     BarberSpecialtiesRepository,

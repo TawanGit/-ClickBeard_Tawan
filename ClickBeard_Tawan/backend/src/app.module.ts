@@ -11,6 +11,8 @@ import { ClientRepository } from './modules/database/repositories/clients/client
 import { BarberRepository } from './modules/database/repositories/barbers/barberRepository';
 import { SpecialtieRepository } from './modules/database/repositories/specialties/specialtieRepository';
 import { BarberSpecialtiesRepository } from './modules/database/repositories/barber_specialties/barberSpecialtiesRepository';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { NotificationsRepository } from './modules/database/repositories/notifications/notificationsRepository';
 
 @Module({
   imports: [
@@ -20,14 +22,15 @@ import { BarberSpecialtiesRepository } from './modules/database/repositories/bar
     BarberModule,
     AppointmentsModule,
     SpecialtiesModule,
+    NotificationsModule,
   ],
-  controllers: [],
   providers: [
     AppointmentsService,
     AppointmentRepository,
     ClientRepository,
     BarberRepository,
     SpecialtieRepository,
+    NotificationsRepository,
     BarberSpecialtiesRepository,
   ],
 })

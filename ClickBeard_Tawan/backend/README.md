@@ -43,6 +43,7 @@ Get-Content migrations/002_create_barbers_table.sql | docker exec -i container_b
 Get-Content migrations/003_create_specialties_table.sql | docker exec -i container_barber_db psql -U postgres -d barber_db
 Get-Content migrations/004_create_barber_specialties_table.sql | docker exec -i container_barber_db psql -U postgres -d barber_db
 Get-Content migrations/005_create_appointments_table.sql | docker exec -i container_barber_db psql -U postgres -d barber_db
+Get-Content migrations/006_create_notifications_table.sql | docker exec -i container_barber_db psql -U postgres -d barber_db
 ```
 
 Caso esteja utilizando Linux, o processo pode ser diferente ⚠️

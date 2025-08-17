@@ -8,12 +8,15 @@ import { CreateAppointmentDto } from 'src/modules/appointments/dtos/create-appoi
 import { ClientRepository } from '../clients/clientRepository';
 import { BarberRepository } from '../barbers/barberRepository';
 import { format } from 'date-fns-tz';
+import { NotificationsRepository } from '../notifications/notificationsRepository';
+import { NotificationsDto } from '../../../notifications/dtos/notifications-dto';
 @Injectable()
 export class AppointmentRepository {
   constructor(
     private db: DatabaseService,
     private clientRepository: ClientRepository,
     private barberRepository: BarberRepository,
+    private notificationsRepository: NotificationsRepository,
   ) {}
   async create(createAppointmentDto: CreateAppointmentDto) {
     const { client_id, barber_id, appointment_date, status } =
@@ -45,6 +48,11 @@ export class AppointmentRepository {
       [client_id, barber_id, appointment_date, status],
     );
 
+    const notificationsDto = {
+      client_id,
+      message: `📅 Novo Agendamento!!\n➡ Data: ${appointment_date}\n💈 Barbeiro: ${barberExist.rows[0].name}\n🙋 Cliente: ${clientExist.rows[0].name}`,
+    } as NotificationsDto;
+    await this.notificationsRepository.create(notificationsDto);
     return newAppointment.rows[0];
   }
 
