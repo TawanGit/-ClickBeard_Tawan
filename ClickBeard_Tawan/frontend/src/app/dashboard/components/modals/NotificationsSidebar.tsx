@@ -46,7 +46,7 @@ export const NotificationSidebar: React.FC<SidebarProps> = ({
                   </span>
                 </div>
                 <div className="text-gray-400 text-xs whitespace-nowrap">
-                  {formatAppointmentDate(notification.created_at)}
+                  {formatAppointmentDate(notification.created_at, true)}
                 </div>
               </div>
             ))

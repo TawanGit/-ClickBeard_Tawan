@@ -14,8 +14,17 @@ export const isMoreThanFiveDaysOld = (dateString: string): boolean => {
   return differenceInDays > 5;
 };
 
-export const formatAppointmentDate = (dateString: string | Date) => {
-  return new Date(dateString).toLocaleString("pt-BR", {
+export const formatAppointmentDate = (
+  dateString: string | Date,
+  lessThree?: boolean
+) => {
+  let date = new Date(dateString);
+
+  if (lessThree) {
+    date = new Date(date.getTime() - 3 * 60 * 60 * 1000);
+  }
+
+  return date.toLocaleString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
