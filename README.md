@@ -15,7 +15,7 @@ O projeto foi desenvolvido para facilitar o dia a dia de barbeiros e clientes, p
 
 Frontend: Next.js + TailwindCss
 
-Backend: Node (Next.js)
+Backend: Node (Nest.js)
 
 Banco de Dados: PostgreSQL / Docker
 
